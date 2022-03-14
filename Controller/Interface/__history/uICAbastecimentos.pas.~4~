@@ -1,0 +1,16 @@
+unit uICAbastecimentos;
+
+interface
+
+type
+  ICAbastecimentos = interface
+    ['{8A5AE3D5-2114-422C-B9F7-CEC4D6F17D19}']
+    procedure SetIDBomba(const Value: Integer);
+    procedure SetVlrLitro(const Value: Currency);
+    procedure SetQtdLitros(const Value: Currency);
+    procedure SetVlrAbastecimento(const Value: Currency);
+  end;
+
+implementation
+
+end.

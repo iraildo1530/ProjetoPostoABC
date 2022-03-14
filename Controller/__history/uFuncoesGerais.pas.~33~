@@ -1,0 +1,57 @@
+unit uFuncoesGerais;
+
+interface
+
+uses
+  System.Classes, Vcl.StdCtrls, Vcl.Forms, Vcl.Mask;
+
+type TFuncoesGerais = class
+  private
+    FnTagStatus : Integer;
+  public
+    procedure LimparCampos(Form : TForm);
+    procedure SetStatus(TagStatus: Integer; Form : TForm);
+end;
+
+const
+  _TSNovo = 1;
+  _TSSalvar = 2;
+  _TSCancelar = 3;
+  _TSExcluir = 4;
+
+implementation
+
+{ TFuncoesGerais }
+
+procedure TFuncoesGerais.LimparCampos(Form : TForm);
+var
+  i: Integer;
+begin
+  //Contador que verifica todos os componentes do Form
+  for i := 0 to Form.ComponentCount -1 do
+  begin
+    //Ativa GroupBox do Novo Abastecimento
+    if (Form.Components[i] is TGroupBox) then
+      (Form.Components[i] as TGroupBox).Visible := (FnTagStatus = _TSNovo);
+
+    //Desativa BDGrid quando está inserindo um Novo Abastecimento
+    if (Form.Components[i] is TBDGrid) then
+      (Form.Components[i] as TBDGrid).Visible := (FnTagStatus <> _TSNovo);
+
+    //Verifica se o objeto é do tipo TEdit
+    if (Form.Components[i] is TEdit) then
+      (Form.Components[i] as TEdit).Clear;
+
+    //Verifica se o objeto é do tipo TMaskEdit
+    if (Form.Components[i] is TMaskEdit) then
+      (Form.Components[i] as TMaskEdit).Clear;
+  end;
+end;
+
+procedure TFuncoesGerais.SetStatus(TagStatus: Integer; Form: TForm);
+begin
+  FnTagStatus := TagStatus;
+  LimparCampos(Form);
+end;
+
+end.

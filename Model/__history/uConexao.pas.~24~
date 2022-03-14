@@ -1,0 +1,59 @@
+unit uConexao;
+
+interface
+
+uses
+  System.SysUtils,FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
+  FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.FB,
+  FireDAC.Phys.FBDef, FireDAC.VCLUI.Wait, FireDAC.Stan.Param, FireDAC.DatS,
+  FireDAC.DApt.Intf, FireDAC.DApt, FireDAC.Comp.Client, FireDAC.Comp.DataSet;
+
+type
+  TConexao = class(TInterfacedObject)
+      FIBDConexao : TFDConnection;
+    private
+
+    public
+      procedure IniciarConexao;
+      procedure EncerrarConexao;
+
+      constructor Create;
+      destructor Destroy; override;
+  end;
+
+implementation
+
+{ TConexao }
+
+constructor TConexao.Create;
+begin
+  FIBDConexao := TFDConnection.Create(nil);
+  with FIBDConexao do
+  begin
+    Name         := 'CAConexao';
+    DatabaseName := 'C:\FortesTecnologia\Prova\CADADOS.FDB';
+    LoginPrompt  := False;
+    ServerType   := 'IBServer';
+
+    Params.Add('user_name=SYSDBA');
+    Params.Add('password=masterkey');
+  end;
+end;
+
+destructor TConexao.Destroy;
+begin
+  inherited;
+end;
+
+procedure TConexao.EncerrarConexao;
+begin
+  FIBDConexao.Connected := False;
+end;
+
+procedure TConexao.IniciarConexao;
+begin
+  FIBDConexao.Connected := True;
+end;
+
+end.

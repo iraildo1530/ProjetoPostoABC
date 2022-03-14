@@ -1,0 +1,201 @@
+object FrmPrincipal: TFrmPrincipal
+  Left = 0
+  Top = 0
+  Caption = 'Controle de Abastecimentos'
+  ClientHeight = 345
+  ClientWidth = 513
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 8
+    Top = 58
+    Width = 160
+    Height = 16
+    Caption = 'Controle de Abastecimentos'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object Label6: TLabel
+    Left = 8
+    Top = 8
+    Width = 122
+    Height = 33
+    Caption = 'Posto ABC'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -27
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object DBGrid: TDBGrid
+    Left = 8
+    Top = 80
+    Width = 497
+    Height = 226
+    DataSource = DataSource1
+    TabOrder = 0
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+  end
+  object BTNovo: TButton
+    Left = 321
+    Top = 49
+    Width = 89
+    Height = 25
+    Caption = 'Novo'
+    TabOrder = 1
+    OnClick = BTNovoClick
+  end
+  object GBNovoAbastecimento: TGroupBox
+    Tag = 1
+    Left = 8
+    Top = 80
+    Width = 497
+    Height = 102
+    Caption = 'Novo Abastecimento'
+    TabOrder = 2
+    Visible = False
+    object Label2: TLabel
+      Left = 8
+      Top = 24
+      Width = 108
+      Height = 13
+      Caption = 'Bomba de Combust'#237'vel'
+    end
+    object Label3: TLabel
+      Left = 303
+      Top = 24
+      Width = 63
+      Height = 13
+      Caption = 'Quant. Litros'
+    end
+    object Label4: TLabel
+      Left = 398
+      Top = 24
+      Width = 51
+      Height = 13
+      Caption = 'Valor Total'
+    end
+    object Label5: TLabel
+      Left = 208
+      Top = 24
+      Width = 63
+      Height = 13
+      Caption = 'Valor do Litro'
+    end
+    object CMBBombaCombustivel: TComboBox
+      Left = 8
+      Top = 40
+      Width = 194
+      Height = 21
+      TabOrder = 0
+      Text = 'CMBBombaCombustivel'
+    end
+    object MEQuantLitros: TMaskEdit
+      Left = 303
+      Top = 40
+      Width = 89
+      Height = 21
+      TabOrder = 1
+      Text = ''
+    end
+    object MEValorTotal: TMaskEdit
+      Left = 398
+      Top = 40
+      Width = 89
+      Height = 21
+      TabOrder = 2
+      Text = ''
+    end
+    object MEValorLitro: TMaskEdit
+      Left = 208
+      Top = 40
+      Width = 89
+      Height = 21
+      Color = clBtnFace
+      Enabled = False
+      TabOrder = 3
+      Text = ''
+    end
+    object BTSalvar: TButton
+      Left = 398
+      Top = 67
+      Width = 89
+      Height = 25
+      Caption = 'Salvar'
+      ModalResult = 6
+      TabOrder = 4
+      OnClick = BTSalvarClick
+    end
+    object BTCancelar: TButton
+      Left = 303
+      Top = 67
+      Width = 89
+      Height = 25
+      Caption = 'Cancelar'
+      ModalResult = 2
+      TabOrder = 5
+      OnClick = BTCancelarClick
+    end
+  end
+  object BTRelDiario: TButton
+    Left = 8
+    Top = 312
+    Width = 145
+    Height = 25
+    Caption = 'Relat'#243'rio Di'#225'rio'
+    TabOrder = 3
+  end
+  object BTRelPeriodo: TButton
+    Left = 159
+    Top = 312
+    Width = 145
+    Height = 25
+    Caption = 'Relat'#243'rio por Per'#237'odo'
+    TabOrder = 4
+  end
+  object BTExcluir: TButton
+    Left = 416
+    Top = 49
+    Width = 89
+    Height = 25
+    Caption = 'Excluir'
+    ModalResult = 8
+    TabOrder = 5
+  end
+  object DataSource1: TDataSource
+    DataSet = FDQuery1
+    Left = 298
+    Top = 184
+  end
+  object FDStoredProc1: TFDStoredProc
+    Left = 384
+    Top = 184
+  end
+  object FDQuery1: TFDQuery
+    SQL.Strings = (
+      'Select * from POSTO')
+    Left = 296
+    Top = 232
+  end
+  object FDStoredProc2: TFDStoredProc
+    Left = 384
+    Top = 232
+  end
+end

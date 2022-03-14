@@ -1,0 +1,99 @@
+unit uMTanque;
+
+interface
+
+uses FireDAC.Comp.Client, System.SysUtils, Data.DB, uMConexao;
+
+type
+  TTanque = class
+    private
+      FFDCon      : TFDConnection;
+      FFDQTanques : TFDQuery;
+      FDSTanques  : TDataSource;
+
+      oDadosQry   : TDadosQry;
+
+      procedure SetFDCon(const Value: TFDConnection);
+      procedure SetDSTanques(const Value: TDataSource);
+      procedure SetFDQTanques(const Value: TFDQuery);
+    public
+      procedure CarregarDados;
+
+      function GetFDCon: TFDConnection;
+      function GetFDQTanques: TFDQuery;
+      function GetDSTanques: TDataSource;
+
+      property FDCon     : TFDConnection read GetFDCon write SetFDCon;
+      property FDQTanques : TFDQuery read GetFDQTanques write SetFDQTanques;
+      property DSTanques  : TDataSource read GetDSTanques write SetDSTanques;
+
+      constructor Create(const oConexao: TFDConnection);
+      destructor Destroy; override;
+    end;
+
+const
+  _SQL_All_Default = 'Select * from TANQUES';
+
+implementation
+
+{ TTanque }
+
+procedure TTanque.CarregarDados;
+begin
+  FFDQTanques := oDadosQry.CarregarDados(FFDQTanques, 'FDQTanques', _SQL_All_Default, True);
+end;
+
+constructor TTanque.Create(const oConexao: TFDConnection);
+begin
+  SetFDCon(oConexao);
+
+  FFDQTanques := TFDQuery.Create(nil);
+  FDSTanques := TDataSource.Create(nil);
+  oDadosQry  := TDadosQry.Create;
+
+  //Configura Conexão da Query Tanques
+  FFDQTanques.Connection := FDCon;
+
+  //Configura Dataset do DataSource Tanques
+  FDSTanques.DataSet := FDQTanques;
+end;
+
+destructor TTanque.Destroy;
+begin
+  FreeAndNil(FFDCon);
+  FreeAndNil(FFDQTanques);
+  FreeAndNil(FDSTanques);
+  inherited;
+end;
+
+function TTanque.GetDSTanques: TDataSource;
+begin
+  Result := FDSTanques;
+end;
+
+function TTanque.GetFDCon: TFDConnection;
+begin
+  Result := FFDCon;
+end;
+
+function TTanque.GetFDQTanques: TFDQuery;
+begin
+  Result := FFDQTanques;
+end;
+
+procedure TTanque.SetDSTanques(const Value: TDataSource);
+begin
+  FDSTanques := Value;
+end;
+
+procedure TTanque.SetFDCon(const Value: TFDConnection);
+begin
+  FFDCon := Value;
+end;
+
+procedure TTanque.SetFDQTanques(const Value: TFDQuery);
+begin
+  FFDQTanques := Value;
+end;
+
+end.

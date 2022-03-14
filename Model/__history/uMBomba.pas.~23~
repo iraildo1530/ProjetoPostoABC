@@ -1,0 +1,98 @@
+unit uMBomba;
+
+interface
+
+uses FireDAC.Comp.Client, System.SysUtils, Data.DB, uMConexao;
+
+type
+  TBomba = class
+  private
+    FoCon      : TConexao;
+    FFDQBombas : TFDQuery;
+    FDSBombas  : TDataSource;
+
+    procedure SetDSBombas(const Value: TDataSource);
+    procedure SetFDQBombas(const Value: TFDQuery);
+    procedure SetoCon(const Value: TConexao);
+  public
+    function GetoCon: TConexao;
+    function GetFDQBombas: TFDQuery;
+    function GetDSBombas: TDataSource;
+
+    procedure CarregarDados;
+
+    property oCon      : TConexao read GetoCon write SetoCon;
+    property FDQBombas : TFDQuery read GetFDQBombas write SetFDQBombas;
+    property DSBombas  : TDataSource read GetDSBombas write SetDSBombas;
+
+    constructor Create(const oConexao: TConexao);
+    destructor Destroy; override;
+  end;
+
+const
+  _SQL_All_Default = 'Select * from BOMBAS';
+
+implementation
+
+{ TBomba }
+
+procedure TBomba.CarregarDados;
+begin
+  FFDQBombas := GetoCon.CarregarDados(FFDQBombas, 'FDQBombas', GetoCon.FFDConexao, _SQL_All_Default);
+  FFDQBombas.Active := True;
+end;
+
+constructor TBomba.Create(Const oConexao: TConexao);
+begin
+  SetoCon(oConexao);
+
+  //Configura Query Bombas
+  FFDQBombas := TFDQuery.Create(nil);
+  FFDQBombas.Connection := GetoCon.FFDConexao;
+
+  //Configura DataSource Bombas
+  FDSBombas := TDataSource.Create(nil);
+  FDSBombas.DataSet := GetFDQBombas;
+
+  CarregarDados;
+end;
+
+destructor TBomba.Destroy;
+begin
+  FreeAndNil(FoCon);
+  FreeAndNil(FFDQBombas);
+  FreeAndNil(FDSBombas);
+  inherited;
+end;
+
+function TBomba.GetDSBombas: TDataSource;
+begin
+  Result := FDSBombas;
+end;
+
+function TBomba.GetFDQBombas: TFDQuery;
+begin
+  Result := FFDQBombas;
+end;
+
+function TBomba.GetoCon: TConexao;
+begin
+  Result := FoCon;
+end;
+
+procedure TBomba.SetDSBombas(const Value: TDataSource);
+begin
+  FDSBombas := Value;
+end;
+
+procedure TBomba.SetFDQBombas(const Value: TFDQuery);
+begin
+  FFDQBombas := Value;
+end;
+
+procedure TBomba.SetoCon(const Value: TConexao);
+begin
+  FoCon := Value;
+end;
+
+end.

@@ -1,0 +1,12 @@
+unit uIoAbastecimentos;
+
+interface
+
+type
+  IoAbastecimentos = interface
+    ['{8A5AE3D5-2114-422C-B9F7-CEC4D6F17D19}']
+  end;
+
+implementation
+
+end.

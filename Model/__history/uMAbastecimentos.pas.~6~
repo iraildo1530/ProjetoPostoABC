@@ -1,0 +1,98 @@
+unit uMAbastecimentos;
+
+interface
+
+uses FireDAC.Comp.Client, System.SysUtils, Data.DB, uMConexao;
+
+type
+  TAbastecimento = class
+  private
+    FoCon      : TConexao;
+    FFDQAbastecimentos : TFDQuery;
+    FDSAbastecimentos  : TDataSource;
+
+    procedure SetDSAbastecimentos(const Value: TDataSource);
+    procedure SetFDQAbastecimentos(const Value: TFDQuery);
+    procedure SetoCon(const Value: TConexao);
+  public
+    function GetoCon: TConexao;
+    function GetFDQAbastecimentos: TFDQuery;
+    function GetDSAbastecimentos: TDataSource;
+
+    procedure CarregarDados;
+
+    property oCon              : TConexao read GetoCon write SetoCon;
+    property FDQAbastecimentos : TFDQuery read GetFDQAbastecimentos write SetFDQAbastecimentos;
+    property DSAbastecimentos  : TDataSource read GetDSAbastecimentos write SetDSAbastecimentos;
+
+    constructor Create(const oConexao: TConexao);
+    destructor Destroy; override;
+  end;
+
+const
+  _SQL_All_Default = 'Select * from ABASTECIMENTOS';
+
+implementation
+
+{ TAbastecimento }
+
+procedure TAbastecimento.CarregarDados;
+begin
+  FFDQAbastecimentos := GetoCon.CarregarDados(FFDQAbastecimentos, 'FDQAbastecimentos', GetoCon.FFDConexao, _SQL_All_Default);
+  FFDQAbastecimentos.Active := True;
+end;
+
+constructor TAbastecimento.Create(Const oConexao: TConexao);
+begin
+  SetoCon(oConexao);
+
+  //Configura Query Abastecimentos
+  FFDQAbastecimentos := TFDQuery.Create(nil);
+  FFDQAbastecimentos.Connection := GetoCon;
+
+  //Configura DataSource Abastecimentos
+  FDSAbastecimentos := TDataSource.Create(nil);
+  FDSAbastecimentos.DataSet := GetFDQAbastecimentos;
+
+  CarregarDados;
+end;
+
+destructor TAbastecimento.Destroy;
+begin
+  FreeAndNil(FoCon);
+  FreeAndNil(FFDQAbastecimentos);
+  FreeAndNil(FDSAbastecimentos);
+  inherited;
+end;
+
+function TAbastecimento.GetDSAbastecimentos: TDataSource;
+begin
+  Result := FDSAbastecimentos;
+end;
+
+function TAbastecimento.GetFDQAbastecimentos: TFDQuery;
+begin
+  Result := FFDQAbastecimentos;
+end;
+
+function TAbastecimento.GetoCon: TConexao;
+begin
+  Result := FoCon;
+end;
+
+procedure TAbastecimento.SetDSAbastecimentos(const Value: TDataSource);
+begin
+  FDSAbastecimentos := Value;
+end;
+
+procedure TAbastecimento.SetFDQAbastecimentos(const Value: TFDQuery);
+begin
+  FFDQAbastecimentos := Value;
+end;
+
+procedure TAbastecimento.SetoCon(const Value: TConexao);
+begin
+  FoCon := Value;
+end;
+
+end.

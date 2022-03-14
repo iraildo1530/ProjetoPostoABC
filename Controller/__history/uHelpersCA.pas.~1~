@@ -1,0 +1,37 @@
+unit uHelpersCA;
+
+interface
+
+uses
+  vcl.stdCtrls, SysUtils;
+
+type
+  TEditDocumento = class Helper for TEdit
+	private
+	   function TextoSemSinais: string;
+	public
+	   function isPessoaFisica: boolean;
+	   function isPessoaJuridica: boolean;
+  end;
+
+implementation
+
+{ TEditDocumento }
+
+function TEditDocumento.isPessoaFisica: boolean;
+begin
+  result := length(TextoSemSinais) = 11;
+end;
+
+function TEditDocumento.isPessoaJuridica: boolean;
+begin
+  result := length(TextoSemSinais) = 14;
+end;
+
+function TEditDocumento.TextoSemSinais: string;
+//Retorna o texto sem caracteres especiais
+begin
+  result := Self.Text;
+end;
+
+end.

@@ -1,0 +1,87 @@
+unit uPrincipal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, IBX.IBDatabase, Data.DB, uConexao,
+  Vcl.Grids, Vcl.DBGrids, IBX.IBCustomDataSet, IBX.IBQuery, uFuncoesGerais,
+  Vcl.ComCtrls, Vcl.Mask, Vcl.Menus, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
+  FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.FB,
+  FireDAC.Phys.FBDef, FireDAC.VCLUI.Wait, FireDAC.Stan.Param, FireDAC.DatS,
+  FireDAC.DApt.Intf, FireDAC.DApt, FireDAC.Comp.Client, FireDAC.Comp.DataSet;
+
+type
+  TFrmPrincipal = class(TForm)
+    DataSource1: TDataSource;
+    DBGrid: TDBGrid;
+    BTNovo: TButton;
+    Label1: TLabel;
+    GBNovoAbastecimento: TGroupBox;
+    CMBBombaCombustivel: TComboBox;
+    MEQuantLitros: TMaskEdit;
+    MEValorTotal: TMaskEdit;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    MEValorLitro: TMaskEdit;
+    Label5: TLabel;
+    BTSalvar: TButton;
+    Label6: TLabel;
+    BTRelDiario: TButton;
+    BTRelPeriodo: TButton;
+    BTExcluir: TButton;
+    BTCancelar: TButton;
+    FDStoredProc1: TFDStoredProc;
+    FDQuery1: TFDQuery;
+    FDStoredProc2: TFDStoredProc;
+    procedure BTNovoClick(Sender: TObject);
+    procedure BTCancelarClick(Sender: TObject);
+    procedure BTSalvarClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FrmPrincipal: TFrmPrincipal;
+  oConexao : TConexao;
+  oFuncoesGerais : TFuncoesGerais;
+
+implementation
+
+{$R *.dfm}
+
+uses uHelpersCA;
+
+procedure TFrmPrincipal.BTCancelarClick(Sender: TObject);
+begin
+  oFuncoesGerais.SetStatus(0, FrmPrincipal);
+end;
+
+procedure TFrmPrincipal.BTNovoClick(Sender: TObject);
+begin
+  oFuncoesGerais.SetStatus(1, FrmPrincipal);
+end;
+
+procedure TFrmPrincipal.BTSalvarClick(Sender: TObject);
+begin
+  oFuncoesGerais.SetStatus(0, FrmPrincipal);
+end;
+
+procedure TFrmPrincipal.FormCreate(Sender: TObject);
+begin
+  oFuncoesGerais := TFuncoesGerais.Create;
+  oFuncoesGerais.SetStatus(0, FrmPrincipal);
+
+  oConexao := TConexao.Create;
+  oConexao.IniciarConexao;
+
+  FDQuery1.Connection := oConexao.FFDConexao;
+  FDQuery1.Active := True;
+end;
+
+end.

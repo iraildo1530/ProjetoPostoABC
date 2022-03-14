@@ -1,0 +1,13 @@
+unit uICPostos;
+
+interface
+
+type
+  ICPostos = interface
+    ['{CB432388-331E-4084-B48F-F25B161808D1}']
+
+  end;
+
+implementation
+
+end.

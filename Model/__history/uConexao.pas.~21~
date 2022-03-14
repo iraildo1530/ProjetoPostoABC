@@ -1,0 +1,60 @@
+unit uConexao;
+
+interface
+
+uses
+  IBX.IBDatabase, Data.DB, System.SysUtils;
+
+type
+  TConexao = class(TInterfacedObject)
+      FIBDConexao    : TIBDatabase;
+      FIBTransaction : TIBTransaction;
+    private
+
+    public
+      procedure IniciarConexao;
+      procedure EncerrarConexao;
+
+      constructor Create;
+      destructor Destroy; override;
+  end;
+
+implementation
+
+{ TConexao }
+
+constructor TConexao.Create;
+begin
+  FIBDConexao := TIBDatabase.Create(nil);
+  with FIBDConexao do
+  begin
+    Name         := 'CAConexao';
+    DatabaseName := 'C:\FortesTecnologia\Prova\CADADOS.FDB';
+    LoginPrompt  := False;
+    ServerType   := 'IBServer';
+
+    Params.Add('user_name=SYSDBA');
+    Params.Add('password=masterkey');
+  end;
+
+  FIBTransaction := TIBTransaction.Create(nil);
+  FIBTransaction.DefaultDatabase := FIBDConexao;
+end;
+
+destructor TConexao.Destroy;
+begin
+  Free
+  inherited;
+end;
+
+procedure TConexao.EncerrarConexao;
+begin
+  FIBDConexao.Connected := False;
+end;
+
+procedure TConexao.IniciarConexao;
+begin
+  FIBDConexao.Connected := True;
+end;
+
+end.
